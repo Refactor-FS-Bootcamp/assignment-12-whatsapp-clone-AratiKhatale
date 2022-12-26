@@ -1,0 +1,34 @@
+import { Button } from '@material-ui/core'
+import React from 'react'
+import './Login.css'
+import { auth, provider } from '../firebase'
+import { useStateValue } from './StateProvider'
+import { actionTypes } from './Reducer'
+
+const Login = () => {
+    const [{}, dispatch] = useStateValue()
+
+    const signIn = () => {
+        auth.signInWithPopup(provider)
+        .then(result => {  
+            dispatch({
+                type: actionTypes.SET_USER,
+                user: result.user
+            })
+    })
+        .catch(error => alert(error.message))
+    }
+  return (
+    <div className='login'>
+        <div className='login_container'>
+            <img src='data:image/jpeg;base64,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' alt='whatsapp'/>
+            <div className='login__text'>
+                <h1>Sign in to whatsapp</h1>
+            </div>
+            <Button onClick={signIn}>Sign In With Google</Button>
+        </div>
+    </div>
+  )
+}
+
+export default Login
